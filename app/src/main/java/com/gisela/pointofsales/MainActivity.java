@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_user) {
             UserFragment userFragment = new UserFragment();
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_for_fragment, userFragment);
+            fragmentTransaction.replace(R.id.frame_for_fragment_left, userFragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_barang) {
 
@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                     User user = new User(noteDataSnapshot.getValue(User.class));
-//                    user.setKey(noteDataSnapshot.getKey());
                     System.out.println(user.toString());
                     users.add(user);
                 }
