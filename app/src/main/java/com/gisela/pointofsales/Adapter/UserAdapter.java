@@ -33,7 +33,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
         final User user = getUsers().get(position);
-        String key = user.getKey();
+//        String key = user.getKey();
         String id = user.getIdUser();
         String name = user.getNamaUser();
         String username = user.getUsername();

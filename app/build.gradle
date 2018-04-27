@@ -42,6 +42,8 @@ dependencies {
     //DRAWER
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
+    //GSON
+    compile 'com.google.code.gson:gson:2.8.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

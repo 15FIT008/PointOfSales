@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        users = new ArrayList<>();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.startActivity(intent);
             }
         });
-        
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -158,7 +160,8 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                     User user = new User(noteDataSnapshot.getValue(User.class));
-                    user.setKey(noteDataSnapshot.getKey());
+//                    user.setKey(noteDataSnapshot.getKey());
+                    System.out.println(user.toString());
                     users.add(user);
                 }
                 getUserAdapter().setUsers(users);

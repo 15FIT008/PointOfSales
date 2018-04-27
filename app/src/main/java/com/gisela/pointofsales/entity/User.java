@@ -7,20 +7,20 @@ import java.io.Serializable;
 
 public class User implements Parcelable {
 
-    String key;
-    int admin;
-    String alamatUser;
-    String idUser;
-    String namaUser;
-    String noTelpUser;
-    String password;
-    String username;
+//    private String key;
+    private int admin;
+    private String alamatUser;
+    private String idUser;
+    private String namaUser;
+    private String noTelpUser;
+    private String password;
+    private String username;
 
     public User() {
     }
 
     public User(User user) {
-        key = user.getKey();
+//        key = user.getKey();
         admin = user.getAdmin();
         alamatUser = user.getAlamatUser();
         idUser = user.getIdUser();
@@ -41,7 +41,7 @@ public class User implements Parcelable {
     }
 
     protected User(Parcel in) {
-        key = in.readString();
+//        key = in.readString();
         admin = in.readInt();
         alamatUser = in.readString();
         idUser = in.readString();
@@ -66,7 +66,7 @@ public class User implements Parcelable {
     @Override
     public String toString() {
         return "User{" +
-                "key='" + key + '\'' +
+//                "key='" + key + '\'' +
                 ", admin=" + admin +
                 ", alamatUser='" + alamatUser + '\'' +
                 ", idUser='" + idUser + '\'' +
@@ -77,13 +77,13 @@ public class User implements Parcelable {
                 '}';
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
+//    public String getKey() {
+//        return key;
+//    }
+//
+//    public void setKey(String key) {
+//        this.key = key;
+//    }
 
     public int getAdmin() {
         return admin;
@@ -148,7 +148,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(key);
+//        dest.writeString(key);
         dest.writeInt(admin);
         dest.writeString(alamatUser);
         dest.writeString(idUser);

@@ -5,11 +5,11 @@ import android.os.Parcelable;
 
 public class Barang implements Parcelable {
 
-    String idBarang;
-    int hargaJual;
-    int hargaBeli;
-    String namaBarang;
-    int stock;
+    private String idBarang;
+    private int hargaJual;
+    private int hargaBeli;
+    private String namaBarang;
+    private int stock;
 
     public Barang() {
     }
