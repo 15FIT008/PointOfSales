@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gisela.pointofsales.entity.User;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +28,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private DatabaseReference userRef;
     private ArrayList<User> users;
+    private User user;
+    private boolean loginSuccess = false;
 
     public ArrayList<User> getUsers() {
         if(users == null){
@@ -43,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         userRef = database.getReference();
+        user = new User();
     }
 
     @OnClick(R.id.btn_login)
@@ -54,10 +58,9 @@ public class LoginActivity extends AppCompatActivity {
                     for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                         if(noteDataSnapshot.getValue(User.class).getUsername().equals(txt_username.getText().toString().trim()) &&
                                 noteDataSnapshot.getValue(User.class).getPassword().equals(txt_password.getText().toString().trim())){
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            LoginActivity.this.finish();
-                            LoginActivity.this.startActivity(intent);
-                            System.out.println(noteDataSnapshot.getValue(User.class).toString());
+                            user = noteDataSnapshot.getValue(User.class);
+                            loginSuccess = true;
+                            break;
                         }
                     }
                 }
@@ -67,6 +70,16 @@ public class LoginActivity extends AppCompatActivity {
                     System.out.println(databaseError.getDetails()+" "+databaseError.getMessage());
                 }
             });
+            if (loginSuccess){
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("userYgLogin",user);
+                LoginActivity.this.finish();
+                LoginActivity.this.startActivity(intent);
+                Toast.makeText(this, "Login Success!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "Please provide the right username and password!", Toast
+                        .LENGTH_SHORT).show();
+            }
         }
     }
 }

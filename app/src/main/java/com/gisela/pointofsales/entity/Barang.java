@@ -22,6 +22,14 @@ public class Barang implements Parcelable {
         stock = in.readInt();
     }
 
+    public Barang(Barang brg) {
+        this.idBarang = brg.getIdBarang();
+        this.hargaJual = brg.getHargaJual();
+        this.hargaBeli = brg.getHargaBeli();
+        this.namaBarang = brg.getNamaBarang();
+        this.stock = brg.getStock();
+    }
+
     public static final Creator<Barang> CREATOR = new Creator<Barang>() {
         @Override
         public Barang createFromParcel(Parcel in) {
@@ -86,5 +94,16 @@ public class Barang implements Parcelable {
         dest.writeInt(hargaBeli);
         dest.writeString(namaBarang);
         dest.writeInt(stock);
+    }
+
+    @Override
+    public String toString() {
+        return "Barang{" +
+                "idBarang='" + idBarang + '\'' +
+                ", hargaJual=" + hargaJual +
+                ", hargaBeli=" + hargaBeli +
+                ", namaBarang='" + namaBarang + '\'' +
+                ", stock=" + stock +
+                '}';
     }
 }

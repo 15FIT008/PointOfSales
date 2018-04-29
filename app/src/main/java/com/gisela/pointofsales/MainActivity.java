@@ -21,7 +21,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gisela.pointofsales.Adapter.BarangAdapter;
 import com.gisela.pointofsales.Adapter.UserAdapter;
+import com.gisela.pointofsales.entity.Barang;
 import com.gisela.pointofsales.entity.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,13 +40,37 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,UserAdapter.UserDataListener {
+        implements NavigationView.OnNavigationItemSelectedListener,UserAdapter.UserDataListener,
+        BarangAdapter.BarangDataListener {
 
     private DatabaseReference userRef;
-    private UserAdapter userAdapter;
     private ArrayList<User> users;
+    private ArrayList<Barang> barangs;
+
+    private UserAdapter userAdapter;
+    private UserListFragment userListFragment;
+
+    private BarangAdapter barangAdapter;
+    private BarangListFragment barangListFragment;
+
     @BindView(R.id.rv_list_user)
     RecyclerView recyclerUsers;
+
+    public BarangListFragment getBarangListFragment() {
+        if(barangListFragment == null){
+            barangListFragment = new BarangListFragment();
+            barangListFragment.getBarangAdapter().setBarangDataClickedListener(this);
+        }
+        return barangListFragment;
+    }
+
+    public UserListFragment getUserListFragment() {
+        if(userListFragment == null){
+            userListFragment = new UserListFragment();
+            userListFragment.getUserAdapter().setUserDataClickedListener(this);
+        }
+        return userListFragment;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +79,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         users = new ArrayList<>();
+        barangs = new ArrayList<>();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -77,13 +104,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //RECYCLE VIEW
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        DividerItemDecoration did = new DividerItemDecoration(this, linearLayoutManager.getOrientation());
-        recyclerUsers.setLayoutManager(linearLayoutManager);
-        recyclerUsers.addItemDecoration(did);
-        recyclerUsers.setAdapter(getUserAdapter());
-        populateUserData();
+//        //RECYCLE VIEW
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        DividerItemDecoration did = new DividerItemDecoration(this, linearLayoutManager.getOrientation());
+//        recyclerUsers.setLayoutManager(linearLayoutManager);
+//        recyclerUsers.addItemDecoration(did);
+//        recyclerUsers.setAdapter(getUserAdapter());
+//        populateUserData();
     }
 
     @Override
@@ -130,20 +157,32 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_user) {
             UserFragment userFragment = new UserFragment();
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_for_fragment_left, userFragment);
-            fragmentTransaction.commit();
-        } else if (id == R.id.nav_barang) {
+            FragmentTransaction userTransaction = getSupportFragmentManager().beginTransaction();
+            userTransaction.replace(R.id.frame_for_fragment_left, userFragment);
+            userTransaction.commit();
 
-        }
+            FragmentTransaction userListTransaction = getSupportFragmentManager().beginTransaction();
+            userListTransaction.replace(R.id.frame_for_fragment_right, getUserListFragment());
+            userListTransaction.commit();
+            populateUserData();
+        } else if (id == R.id.nav_barang) {
+            BarangFragment barangFragment = new BarangFragment();
+            FragmentTransaction barangTransaction = getSupportFragmentManager().beginTransaction();
+            barangTransaction.replace(R.id.frame_for_fragment_left, barangFragment);
+            barangTransaction.commit();
+
+            FragmentTransaction barangLisTransaction = getSupportFragmentManager().beginTransaction();
+            barangLisTransaction.replace(R.id.frame_for_fragment_right, getBarangListFragment());
+            barangLisTransaction.commit();
+            populateBarangData();        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    //RECYCLE VIEW
 
+    //RECYCLE VIEW
     public UserAdapter getUserAdapter() {
         if(userAdapter == null){
             userAdapter = new UserAdapter();
@@ -151,13 +190,21 @@ public class MainActivity extends AppCompatActivity
         }
         return userAdapter;
     }
+    public BarangAdapter getBarangAdapter() {
+        if (barangAdapter == null) {
+            barangAdapter = new BarangAdapter();
+            barangAdapter.setBarangDataClickedListener(this);
+        }
+        return barangAdapter;
+    }
 
-    private void populateUserData(){
+     public void populateUserData(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         userRef = database.getReference();
         userRef.child("User").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                users.clear();
                 for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                     User user = new User(noteDataSnapshot.getValue(User.class));
                     System.out.println(user.toString());
@@ -171,11 +218,40 @@ public class MainActivity extends AppCompatActivity
                 System.out.println(databaseError.getDetails()+" "+databaseError.getMessage());
             }
         });
+        getUserListFragment().getUserAdapter().setUsers(users);
+    }
+
+    public void populateBarangData(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        userRef = database.getReference();
+        userRef.child("Barang").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                barangs.clear();
+                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
+                    Barang barang = new Barang(noteDataSnapshot.getValue(Barang.class));
+                    System.out.println(barang.toString());
+                    barangs.add(barang);
+                }
+                getBarangAdapter().setBarangs(barangs);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println(databaseError.getDetails()+" "+databaseError.getMessage());
+            }
+        });
+        getBarangListFragment().getBarangAdapter().setBarangs(barangs);
     }
 
 
     @Override
     public void onUserClicked(User user) {
+
+    }
+
+    @Override
+    public void onBarangClicked(Barang barang) {
 
     }
 }

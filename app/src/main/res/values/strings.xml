@@ -31,12 +31,20 @@
     <string name="text_user_repassword">Re-password</string>
     <string name="text_user_phone">No Telp</string>
     <string name="text_user_address">Alamat</string>
-    <string name="add_user">User</string>
-    <string name="rad_admin">Admin</string>
-    <string name="rad_kasir">Kasir</string>
+    <string name="text_user_id">ID</string>
     <string name="text_user_role">User Role :</string>
+
+    <string name="text_brg_harga_jual">Harga Jual</string>
+    <string name="text_brg_harga_beli">Harga Beli</string>
+    <string name="text_brg_nama">Nama</string>
+    <string name="text_brg_stock">Stock</string>
+
+    <string name="add_user">User</string>
     <string name="update">Update</string>
     <string name="delete">Delete</string>
     <string name="list_user">List User</string>
-    <string name="text_user_id">ID</string>
+
+    <string name="rad_admin">Admin</string>
+    <string name="rad_kasir">Kasir</string>
+    <string name="list_barang">List Barang</string>
 </resources>

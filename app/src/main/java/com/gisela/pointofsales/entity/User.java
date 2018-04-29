@@ -20,7 +20,6 @@ public class User implements Parcelable {
     }
 
     public User(User user) {
-//        key = user.getKey();
         admin = user.getAdmin();
         alamatUser = user.getAlamatUser();
         idUser = user.getIdUser();
@@ -30,18 +29,7 @@ public class User implements Parcelable {
         username = user.getUsername();
     }
 
-    public User(int admin, String alamatUser, String idUser, String namaUser, String noTelpUser, String password, String username) {
-        this.admin = admin;
-        this.alamatUser = alamatUser;
-        this.idUser = idUser;
-        this.namaUser = namaUser;
-        this.noTelpUser = noTelpUser;
-        this.password = password;
-        this.username = username;
-    }
-
     protected User(Parcel in) {
-//        key = in.readString();
         admin = in.readInt();
         alamatUser = in.readString();
         idUser = in.readString();
