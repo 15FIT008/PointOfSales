@@ -3,8 +3,9 @@ package com.gisela.pointofsales.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Barang implements Parcelable {
+public class Barang implements Parcelable{
 
+    private String key;
     private String idBarang;
     private int hargaJual;
     private int hargaBeli;
@@ -12,14 +13,6 @@ public class Barang implements Parcelable {
     private int stock;
 
     public Barang() {
-    }
-
-    protected Barang(Parcel in) {
-        idBarang = in.readString();
-        hargaJual = in.readInt();
-        hargaBeli = in.readInt();
-        namaBarang = in.readString();
-        stock = in.readInt();
     }
 
     public Barang(Barang brg) {
@@ -30,17 +23,22 @@ public class Barang implements Parcelable {
         this.stock = brg.getStock();
     }
 
-    public static final Creator<Barang> CREATOR = new Creator<Barang>() {
-        @Override
-        public Barang createFromParcel(Parcel in) {
-            return new Barang(in);
-        }
+    protected Barang(Parcel in) {
+        key = in.readString();
+        idBarang = in.readString();
+        hargaJual = in.readInt();
+        hargaBeli = in.readInt();
+        namaBarang = in.readString();
+        stock = in.readInt();
+    }
 
-        @Override
-        public Barang[] newArray(int size) {
-            return new Barang[size];
-        }
-    };
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public String getIdBarang() {
         return idBarang;
@@ -82,6 +80,18 @@ public class Barang implements Parcelable {
         this.stock = stock;
     }
 
+    public static final Creator<Barang> CREATOR = new Creator<Barang>() {
+        @Override
+        public Barang createFromParcel(Parcel in) {
+            return new Barang(in);
+        }
+
+        @Override
+        public Barang[] newArray(int size) {
+            return new Barang[size];
+        }
+    };
+
     @Override
     public int describeContents() {
         return 0;
@@ -89,21 +99,11 @@ public class Barang implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(key);
         dest.writeString(idBarang);
         dest.writeInt(hargaJual);
         dest.writeInt(hargaBeli);
         dest.writeString(namaBarang);
         dest.writeInt(stock);
-    }
-
-    @Override
-    public String toString() {
-        return "Barang{" +
-                "idBarang='" + idBarang + '\'' +
-                ", hargaJual=" + hargaJual +
-                ", hargaBeli=" + hargaBeli +
-                ", namaBarang='" + namaBarang + '\'' +
-                ", stock=" + stock +
-                '}';
     }
 }

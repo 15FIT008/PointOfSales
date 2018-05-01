@@ -2,6 +2,7 @@
 <resources>
     <dimen name="top_margin">65dp</dimen>
     <dimen name="horizontal_margin">25dp</dimen>
+    <dimen name="data_padding">8dp</dimen>
     <dimen name="image_height">100dp</dimen>
     <dimen name="button_width">120dp</dimen>
 

@@ -5,9 +5,9 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
-public class User implements Parcelable {
+public class User implements Parcelable{
 
-//    private String key;
+    private String key;
     private int admin;
     private String alamatUser;
     private String idUser;
@@ -20,6 +20,7 @@ public class User implements Parcelable {
     }
 
     public User(User user) {
+        key = user.getKey();
         admin = user.getAdmin();
         alamatUser = user.getAlamatUser();
         idUser = user.getIdUser();
@@ -29,49 +30,13 @@ public class User implements Parcelable {
         username = user.getUsername();
     }
 
-    protected User(Parcel in) {
-        admin = in.readInt();
-        alamatUser = in.readString();
-        idUser = in.readString();
-        namaUser = in.readString();
-        noTelpUser = in.readString();
-        password = in.readString();
-        username = in.readString();
+    public String getKey() {
+        return key;
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-    @Override
-    public String toString() {
-        return "User{" +
-//                "key='" + key + '\'' +
-                ", admin=" + admin +
-                ", alamatUser='" + alamatUser + '\'' +
-                ", idUser='" + idUser + '\'' +
-                ", namaUser='" + namaUser + '\'' +
-                ", noTelpUser='" + noTelpUser + '\'' +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                '}';
+    public void setKey(String key) {
+        this.key = key;
     }
-
-//    public String getKey() {
-//        return key;
-//    }
-//
-//    public void setKey(String key) {
-//        this.key = key;
-//    }
 
     public int getAdmin() {
         return admin;
@@ -129,6 +94,29 @@ public class User implements Parcelable {
         this.username = username;
     }
 
+    protected User(Parcel in) {
+        key = in.readString();
+        admin = in.readInt();
+        alamatUser = in.readString();
+        idUser = in.readString();
+        namaUser = in.readString();
+        noTelpUser = in.readString();
+        password = in.readString();
+        username = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     @Override
     public int describeContents() {
         return 0;
@@ -136,7 +124,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeString(key);
+        dest.writeString(key);
         dest.writeInt(admin);
         dest.writeString(alamatUser);
         dest.writeString(idUser);

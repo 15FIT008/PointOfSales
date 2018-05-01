@@ -32,16 +32,15 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
     @Override
     public void onBindViewHolder(@NonNull BarangViewHolder holder, int position) {
         final Barang barang = getBarangs().get(position);
-        String id = barang.getIdBarang();
         String nama = barang.getNamaBarang();
         int hargaJual = barang.getHargaJual();
         int hargaBeli = barang.getHargaBeli();
         int stock = barang.getStock();
 
         holder.txt_brg_nama.setText(nama);
-//        holder.txt_brg_harga_jual.setText(hargaJual);
-//        holder.txt_brg_harga_beli.setText(hargaBeli);
-//        holder.txt_brg_stock.setText(stock);
+        holder.txt_brg_harga_jual.setText(String.valueOf(hargaJual));
+        holder.txt_brg_harga_beli.setText(String.valueOf(hargaBeli));
+        holder.txt_brg_stock.setText(String.valueOf(stock));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,9 +76,9 @@ public class BarangAdapter extends RecyclerView.Adapter<BarangAdapter.BarangView
     class BarangViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.text_brg_nama)
         TextView txt_brg_nama;
-        @BindView(R.id.text_brg_harga_jual)
+        @BindView(R.id.text_brg_sell)
         TextView txt_brg_harga_jual;
-        @BindView(R.id.text_brg_harga_beli)
+        @BindView(R.id.text_brg_buy)
         TextView txt_brg_harga_beli;
         @BindView(R.id.text_brg_stock)
         TextView txt_brg_stock;

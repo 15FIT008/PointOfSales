@@ -33,29 +33,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
         final User user = getUsers().get(position);
-        String id = user.getIdUser();
+//        String id = user.getIdUser();
         String name = user.getNamaUser();
         String username = user.getUsername();
         String alamat = user.getAlamatUser();
+        String phone = user.getNoTelpUser();
         int admin = user.getAdmin();
 
-        String role = "";
-        if(admin == 0){
-            role = "Kasir";
-        }else{
+        String role;
+        if(admin == 1){
             role = "Admin";
+        }else{
+            role = "Kasir";
         }
 
-        holder.txt_user_address.setText(alamat);
-        holder.txt_user_id.setText(id);
+//        holder.txt_user_id.setText(id);
         holder.txt_user_name.setText(name);
-        holder.txt_user_role.setText(role);
+        holder.txt_user_address.setText(alamat);
         holder.txt_user_username.setText(username);
+        holder.txt_user_role.setText(role);
+        holder.txt_user_phone.setText(phone);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(userDataClickedListener != null){
-                    userDataClickedListener.onUserClicked(user);
+                        userDataClickedListener.onUserClicked(user);
                 }
             }
         });
@@ -64,6 +66,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public int getItemCount() {
         return getUsers().size();
+    }
+
+    public ArrayList<User> getUsers() {
+        if(users == null){
+            users = new ArrayList<>();
+        }
+        return users;
     }
 
     public void setUsers(ArrayList<User> users) {
@@ -76,17 +85,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         this.userDataClickedListener = userDataClickedListener;
     }
 
-    public ArrayList<User> getUsers() {
-        if(users == null){
-            users = new ArrayList<>();
-        }
-        return users;
-    }
 
     class UserViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.text_user_id)
-        TextView txt_user_id;
+//        @BindView(R.id.text_user_id)
+//        TextView txt_user_id;
         @BindView(R.id.text_user_name)
         TextView txt_user_name;
         @BindView(R.id.text_user_role)
@@ -95,6 +98,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         TextView txt_user_address;
         @BindView(R.id.text_user_username)
         TextView txt_user_username;
+        @BindView(R.id.text_user_phone)
+        TextView txt_user_phone;
 
         public UserViewHolder(View itemView) {
             super(itemView);

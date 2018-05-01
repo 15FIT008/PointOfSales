@@ -59,7 +59,10 @@ public class LoginActivity extends AppCompatActivity {
                         if(noteDataSnapshot.getValue(User.class).getUsername().equals(txt_username.getText().toString().trim()) &&
                                 noteDataSnapshot.getValue(User.class).getPassword().equals(txt_password.getText().toString().trim())){
                             user = noteDataSnapshot.getValue(User.class);
-                            loginSuccess = true;
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("userYgLogin",user);
+                            LoginActivity.this.finish();
+                            LoginActivity.this.startActivity(intent);
                             break;
                         }
                     }
@@ -70,16 +73,6 @@ public class LoginActivity extends AppCompatActivity {
                     System.out.println(databaseError.getDetails()+" "+databaseError.getMessage());
                 }
             });
-            if (loginSuccess){
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("userYgLogin",user);
-                LoginActivity.this.finish();
-                LoginActivity.this.startActivity(intent);
-                Toast.makeText(this, "Login Success!", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(this, "Please provide the right username and password!", Toast
-                        .LENGTH_SHORT).show();
-            }
         }
     }
 }
